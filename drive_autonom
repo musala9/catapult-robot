@@ -1,0 +1,40 @@
+package net.maxdev.ftc;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import net.maxdev.ftc.utils.catapultmotor;
+ import net.maxdev.ftc.utils.drive_motors;
+
+
+@Autonomous(name = "Drive_autonom", group = "Debug")
+
+public class drive_autonom extends OpMode  { //am pus si exceptia aia??
+    //declaram rotile
+    private catapultmotor catapulta=new catapultmotor;
+    private drive_motors wheels=new drive_motors();
+
+    @Override
+    public void runOpMode()
+    {
+        catapulta.init(telemetry,hardwareMap);
+        wheels.encoderinit(telemetry,hardwareMap);
+    }
+
+    waitForStart();
+
+    wheels.encoderDrive(LinearOpMode,1.25,0.1,0.5,0.25);
+    public int gyroActual=wheels.getRelativeHeading();
+    //daca o ia la stanga
+    wheels.rotate(-90, gyroActual,0.5);
+    wheels.encoderDrive(LinearOpMode,1.5,0.1,0.5,0.25);
+    catapulta.throw_thing();
+   // catapulta.loading_thing();
+    catapulta.resetmotor();
+    catapulta.force_stop();
+    catapulta.throw_thing();
+
+
+}
